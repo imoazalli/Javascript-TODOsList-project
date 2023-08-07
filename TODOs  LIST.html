@@ -61,6 +61,7 @@
                     <textarea class="form-control" placeholder="Leave a comment here" id="description"></textarea>
                 </div>
                 <button id="add" class="btn btn-primary my-4">Add to list</button>
+                <button  id="clear" class="btn btn-primary" onclick="clearStorage()">Clear list</button>
                 <div id="items" class="my-4">
                     <h2>Your Items</h2>
                     <table class="table">
@@ -72,17 +73,9 @@
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
-                        <tbody id="tableBody"><tr>
-                            <th scope="row">0</th>
-                            <td>test</td>
-                            <td>tset</td>
-                            <td><button class="btn btn-sm btn-primary">Delete</button></td>
-                        </tr><tr>
-                            <th scope="row">1</th>
-                            <td>tes</td>
-                            <td>set</td>
-                            <td><button class="btn btn-sm btn-primary">Delete</button></td>
-                        </tr></tbody>
+                        <tbody id="tableBody">
+                           
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -90,11 +83,11 @@
         <script>
             add = document.getElementById("add")
             add.addEventListener("click", () => {
+                itemJsonArray = [];
                 console.log("updating List....");
                 tit = document.getElementById("title").value;
                 desc = document.getElementById("description").value;
                 if (localStorage.getItem('itemsJson') == null) {
-                    itemJsonArray = [];
                     itemJsonArray.push([tit, desc]);
                     localStorage.setItem('itemsJson', JSON.stringify(itemJsonArray))
                 }
@@ -102,7 +95,7 @@
                     itemJsonArrayStr = localStorage.getItem('itemsJson')
                     itemJsonArray = JSON.parse(itemJsonArrayStr);
                     itemJsonArray.push([tit, desc])
-                    localStorage.setItem('itemJson', JSON.stringify(itemJsonArray))
+                    localStorage.setItem('itemsJson', JSON.stringify(itemJsonArray))
                 }
                 let tableBody = document.getElementById("tableBody");
                 let str = "";
@@ -112,11 +105,18 @@
                             <th scope="row">${index}</th>
                             <td>${element[0]}</td>
                             <td>${element[1]}</td>
-                            <td><button class="btn btn-sm btn-primary">Delete</button></td>
+                            <td> <button class="btn btn-sm btn-primary">Delete</button></td>
                         </tr>`;
                 });
                 tableBody.innerHTML = str;
             })
+            function clearStorage(){
+                if (confirm("Do you areally want to clear?")){
+                console.log('Clearing the storage')
+                localStorage.clear();
+                window.location.reload();
+                }
+            }
         </script>
     <!-- Code injected by live-server -->
 <script>
